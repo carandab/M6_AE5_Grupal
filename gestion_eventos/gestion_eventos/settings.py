@@ -11,13 +11,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-7hyp=*3xp_eo-xa0a6i=%9ha-o42!st&&iui09ro$sq-dyz&43'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'app_eventos.CustomUser'
 
-# Application definition
+# Redirige al login después del logout
+LOGOUT_REDIRECT_URL = '/login/'
+
+LOGIN_REDIRECT_URL = '/inicio/'
+
+# URL opcional para login cuando se requiere autenticación
+LOGIN_URL = '/login/'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

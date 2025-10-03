@@ -24,7 +24,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
+                {% if user.is_authenticated %}
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
@@ -37,15 +37,21 @@
                             <a class="nav-link" href="{% url 'formulario2' %}">Registros Personas</a>
                         </li>
                     </ul>
-                    
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Registrarse</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-sign-in-alt"></i> Acceder</a>
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-logout"></i> Cerrar Sesion</a>
                         </li>
                     </ul>
+                {% else %}
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signup' %}"><i class="fa fa-user"></i> Registrarse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}"><i class="fa fa-sign-in-alt"></i> Acceder</a>
+                        </li>
+                    </ul>
+                {% endif %}
                 </div>
             </div>
         </nav>
