@@ -3,6 +3,51 @@
 {% block title %}Inicio{% endblock %}
 {% block content %}
 
+{% if user.is_authenticated %}
+
+<div class="px-4 pt-5 my-5 text-center border-bottom">
+    <h1 class="display-4 fw-bold text-body-emphasis">Info</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Organiza y registra tus eventos de manera simple y eficiente.
+            Nuestra plataforma te permite crear eventos con toda la información relevante: nombre, fecha y ubicación,
+            además de gestionar la lista de participantes con sus datos de contacto. Todo en un solo lugar.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{% url 'formulario1' %}" id="btn-eventos" class="btn btn-lg px-5 py-3 me-sm-4">Crear Evento</a>
+            <a href="{% url 'login' %}" id="btn-personas" class="btn btn-lg px-5 py-3">Editar Evento</a>
+        </div>
+    </div>
+    <div class="row">
+    {% for evento in eventos %}
+        <div class="col-md-4 mb-4 mt-3">
+            <div class="card" style="width: 100%;">
+                {% if evento.imagen %}
+                    <img src="{{ evento.imagen.url }}" class="card-img-top py-2" alt="{{ evento.nombre }}">
+                {% else %}
+                    <div class="card-img-top py-2 bg-secondary" style="height: 200px;"></div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title mb-2">{{ evento.nombre }}</h5>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            📅 {{ evento.fecha|date:"d/m/Y H:i" }}<br>
+                            📍 {{ evento.lugar|truncatewords:10 }}
+                        </small>
+                    </p>
+                    {% if evento.descripcion %}
+                        <p class="card-text">{{ evento.descripcion|truncatewords:15 }}</p>
+                    {% endif %}
+                    <a href="#" class="btn btn-primary my-2">Ver Evento</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No hay eventos disponibles aún.</p>
+    {% endfor %}
+    </div>
+</div>
+
+{% else %}
+
 <div class="px-4 pt-5 my-5 text-center border-bottom">
     <h1 class="display-4 fw-bold text-body-emphasis">Gestión de Eventos y Participantes</h1>
     <div class="col-lg-6 mx-auto">
@@ -10,15 +55,17 @@
             Nuestra plataforma te permite crear eventos con toda la información relevante: nombre, fecha y ubicación,
             además de gestionar la lista de participantes con sus datos de contacto. Todo en un solo lugar.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-            <a href="{% url 'formulario1' %}" id="btn-eventos" class="btn btn-lg px-5 py-3 me-sm-4">Eventos</a>
-            <a href="{% url 'formulario2' %}" id="btn-personas" class="btn btn-lg px-5 py-3">Personas</a>
+            <a href="{% url 'signup' %}" id="btn-eventos" class="btn btn-lg px-5 py-3 me-sm-4">Crear Usuario</a>
+            <a href="{% url 'login' %}" id="btn-personas" class="btn btn-lg px-5 py-3">Acceder</a>
         </div>
     </div>
     <div class="overflow-hidden">
-        <div class="container px-5 mb-2"> <img src="{% static 'img/imagen_hero.jpg' %}"  class="img-fluid border rounded-3 shadow-lg mb-4" alt="Imagen de evento masivo" >
+        <div class="container px-5 mb-2"> 
+            <img src="{% static 'img/imagen_hero.jpg' %}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Imagen de evento masivo">
         </div>
     </div>
 </div>
 
+{% endif %}
 
 {% endblock %}

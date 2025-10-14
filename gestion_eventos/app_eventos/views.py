@@ -3,27 +3,29 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import permission_required
 from django.views.generic import TemplateView
-from .models import CustomUser
+from .models import CustomUser, Eventos
 from .mixins import ProtectedTemplateView, PermissionProtectedTemplateView
-from .forms import EventoForm, ParticipanteForm 
+from .forms import EventoForm
 
 def inicio(request):
-    return render(request, 'inicio.html')
+    eventos = Eventos.objects.all().order_by('-fecha') 
+    return render(request, 'inicio.html', {'eventos': eventos}) 
+
 
 def registrar_evento(request):
     if request.method == 'POST':
-        form = EventoForm(request.POST)
+        form = EventoForm(request.POST, request.FILES)
         if form.is_valid():
-            # Procesar datos
-            nombre = form.cleaned_data['nombre']
-            fecha = form.cleaned_data['fecha']
-            ubicacion = form.cleaned_data['ubicacion']
-            # Realizar alguna acción con los datos, como enviar un correo
-            return render(request, 'formulario_exito.html', {'nombre': nombre})
+            form.save()
+            return redirect('formulario_exito ') 
     else:
         form = EventoForm()
     
     return render(request, 'formulario1.html', {'form': form})
+    
+
+def formulario_exito(request):
+    return render(request, 'formulario_exito.html')
 
 def registrar_persona(request):
     if request.method == 'POST':
